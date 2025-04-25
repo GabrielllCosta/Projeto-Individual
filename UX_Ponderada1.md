@@ -31,7 +31,28 @@ A aplicação WEB se trata de um organizador de tarefas focado a estudantes de i
 
 ### 2.2. User Stories (Semana 01 - opcional)
 
-*Posicione aqui a lista de User Stories levantadas para o projeto. Siga o template de User Stories e utilize a referência USXX para numeração (US01, US02, US03, ...). Indique todas as User Stories mapeadas, mesmo aquelas que não forem implementadas ao longo do projeto. Não se esqueça de explicar o INVEST de 1 User Storie prioritária.*
+
+US01:	Como estudante de inglês, eu quero criar tarefas de estudo para organizar o que preciso fazer.
+
+US02:	Como estudante de inglês, eu quero categorizar minhas tarefas (estudo, lazer, revisão) para visualizar melhor minhas prioridades.
+
+US03:	Como estudante de inglês, eu quero ganhar recompensas virtuais conforme concluo tarefas para me manter motivado.
+
+Explicação do INVEST para User Story (US01)
+
+I (Independente): A criação de tarefas não depende de outras funcionalidades.
+
+N (Negociável): Pode ser ajustado conforme prioridades.
+
+V (Valiosa): Ajuda muito a organizar o estudo do usuário, entregando valor imediato.
+
+E (Estimável): Pode ser estimado com clareza para desenvolvimento em uma sprint.
+
+S (Small - Pequena): A funcionalidade é pequena o suficiente para ser concluída rapidamente.
+
+T (Testável): Pode ser testada criando e verificando tarefas dentro do sistema.
+
+
 
 ---
 
