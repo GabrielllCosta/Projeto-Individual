@@ -18,7 +18,9 @@
 
 ## <a name="c1"></a>1. Introdução 
 
-A aplicação WEB se trata de um organizador de tarefas focado a estudantes de inglês.A plataforma oferecerá funcionalidades como criação de tarefas, definição de prazos, categorização de atividades por tipo (estudo, lazer, revisão) e visualização de progresso. A aplicação terá uma boa interface para ajudar o estudante na sua caminhada de aprendizado e organização. Recompensas podem ser adicionadas para engajar os usúarios a continuarem o seu progresso.
+
+A aplicação WEB se trata de um organizador de tarefas focado a estudantes de inglês.A plataforma oferecerá funcionalidades como criação de tarefas, definição de prazos, categorização de atividades por tipo (estudo, lazer, revisão) e visualização de progresso. A aplicação terá uma boa interface para ajudar o estudante na sua caminhada de aprendizado e organização. Recompensas podem ser adicionadas para engajar os usuários a continuarem o seu progresso.
+
 ---
 
 ## <a name="c2"></a>2. Visão Geral da Aplicação Web
