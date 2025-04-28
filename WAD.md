@@ -2,9 +2,9 @@
 
 **_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final._**
 
-## Nome do Projeto
+## Organization
 
-#### Autor do projeto
+#### Gabriel Leon Lima Costa
 
 ## Sumário
 
@@ -29,7 +29,7 @@ A aplicação WEB se trata de um organizador de tarefas focado a estudantes de i
 
 ![Persona ](imagens/persona.png)
 
-### 2.2. User Stories (Semana 01 - opcional)
+### 2.2. User Stories 
 
 
 US01:	Como estudante de inglês, eu quero criar tarefas de estudo para organizar o que preciso fazer.
