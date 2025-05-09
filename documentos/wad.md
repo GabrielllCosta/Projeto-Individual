@@ -154,9 +154,9 @@ CREATE TABLE tasks (
   
 *Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
 
-### 3.3. Wireframes (Semana 03 - opcional)
+### 3.3. Wireframes 
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+![Banco de dados ](imagens/wireframe.png)
 
 ### 3.4. Guia de estilos (Semana 05 - opcional)
 
