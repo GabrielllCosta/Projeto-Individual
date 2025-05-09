@@ -60,7 +60,7 @@ T (Testável): Pode ser testada criando e verificando tarefas dentro do sistema.
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-![Banco de dados](imagens/modelo-banco.png)
+![Banco de dados ](imagens/modelo-banco.png)
 
 O modelo relacional abaixo representa a estrutura do banco de dados de um sistema de gerenciamento de tarefas. Ele é composto por três entidades principais: users, categories e tasks.
 
@@ -138,7 +138,7 @@ CREATE TABLE tasks (
 
 ```
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
