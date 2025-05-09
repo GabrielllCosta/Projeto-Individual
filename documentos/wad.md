@@ -60,7 +60,83 @@ T (Testável): Pode ser testada criando e verificando tarefas dentro do sistema.
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+![Banco de dados](imagens/modelo-banco.png)
+
+O modelo relacional abaixo representa a estrutura do banco de dados de um sistema de gerenciamento de tarefas. Ele é composto por três entidades principais: users, categories e tasks.
+
+🔹 Tabela users
+Armazena os dados dos usuários do sistema.
+
+id: Identificador único do usuário (PK).
+
+username: Nome de usuário (único e obrigatório).
+
+email: Email do usuário (único e obrigatório).
+
+password: Senha criptografada (obrigatória).
+
+🔹 Tabela categories
+Classifica as tarefas em categorias.
+
+id: Identificador único da categoria (PK).
+
+name: Nome da categoria (obrigatório).
+
+description: Descrição opcional da categoria.
+
+🔹 Tabela tasks
+Armazena as tarefas atribuídas aos usuários.
+
+id: Identificador único da tarefa (PK).
+
+title: Título da tarefa.
+
+description: Descrição da tarefa.
+
+due_date: Data de vencimento.
+
+status: Status da tarefa (por padrão, "pendente").
+
+user_id: Chave estrangeira que referencia users.id 
+
+category_id: Chave estrangeira que referencia categories.id 
+
+Relações Entre Tabelas
+
+users → tasks: Um usuário pode ter várias tarefas. 
+
+categories → tasks: Uma categoria pode ser atribuída a várias tarefas. 
+
+ ```sql
+ -- Tabela de usuários
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL
+);
+
+-- Tabela de categorias
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(100) NOT NULL,
+  description TEXT
+);
+
+-- Tabela de tarefas
+CREATE TABLE tasks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title VARCHAR(255),
+  description TEXT,
+  due_date DATE,
+  status VARCHAR(50) DEFAULT 'pendente',
+  user_id INTEGER NOT NULL,
+  category_id INTEGER,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+```
 
 *Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
 
