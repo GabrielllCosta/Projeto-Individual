@@ -147,6 +147,69 @@ Visualização de progresso
 
 Possibilidade de gamificação com recompensas
 
-📜 Licença
+ Configuração do Banco de Dados e Testes de API
+1. Configurar o Banco de Dados
+Certifique-se de que o PostgreSQL está instalado e rodando na sua máquina. Em seguida:
 
-Este projeto está licenciado sob a Licença MIT.
+Crie um banco de dados chamado organizador_tarefas (ou outro nome desejado).
+
+Atualize o arquivo .env com as credenciais corretas:
+
+env
+```
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=organizador_tarefas
+````
+2. Rodar as Migrações
+As tabelas são criadas com os comandos SQL disponíveis em scripts/init.sql.
+
+Execute o script automaticamente com:
+
+bash
+````
+npm run init-db
+````
+Ou manualmente via cliente PostgreSQL:
+
+bash
+````
+psql -U seu_usuario -d organizador_tarefas -f scripts/init.sql
+````
+Certifique-se de que o usuário PostgreSQL tenha permissão de criação de tabelas.
+
+3. Testar a API
+Você pode testar os endpoints da aplicação com o arquivo rest.http, utilizando a extensão REST Client do VS Code, ou via Postman.
+
+Exemplos de rotas disponíveis:
+
+GET /users – Lista todos os usuários
+
+POST /users – Cria um novo usuário
+
+PUT /users/:id – Atualiza um usuário
+
+DELETE /users/:id – Remove um usuário
+
+Todas as rotas estão disponíveis nos arquivos da pasta /routes.
+
+4. Rodar os Testes Automatizados
+Para garantir que a lógica da aplicação esteja funcionando corretamente, execute:
+
+bash
+````
+
+npm test
+````
+Os testes estão organizados por camada na pasta tests/:
+
+userModel.test.js
+
+userController.test.js
+
+userRoutes.test.js
+
+userService.test.js
+
