@@ -1,15 +1,23 @@
 const express = require('express');
-const app = express();
-const PORT = 3000;
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
-// Middleware para processar JSON
-app.use(express.json());
+const userRoutes = require('./routes/userRoutes');
+const tarefaRoutes = require('./routes/tarefaRoutes');
+const categoriaRoutes = require('./routes/categoriaRoutes');
+
+const app = express();
+const port = 3000;
+
+// Middlewares
+app.use(cors());
+app.use(bodyParser.json());
 
 // Rotas
-const routes = require('./routes/index');
-app.use('/', routes);
+app.use('/api/users', userRoutes);
+app.use('/api/tarefas', tarefaRoutes);
+app.use('/api/categorias', categoriaRoutes);
 
-// Inicializa o servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
 });
