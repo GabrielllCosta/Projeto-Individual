@@ -141,18 +141,57 @@ CREATE TABLE tasks (
 
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+O sistema web utiliza três modelos principais para representar e manipular os dados armazenados no banco de dados relacional:
 
+1. User:
+Representa os pais ou responsáveis que acessarão o sistema. Cada usuário possui os seguintes campos:
+
+id: Identificador único do usuário.
+
+name: Nome do usuário.
+
+email: Email utilizado para login.
+
+password: Senha criptografada para autenticação.
+
+2. Categoria:
+Utilizada para agrupar tarefas escolares de forma temática ou funcional. Cada categoria contém:
+
+id: Identificador único da categoria.
+
+name: Nome da categoria.
+
+description: Descrição da categoria.
+
+3. Tarefa:
+Representa atividades ou compromissos escolares associados a um aluno. Cada tarefa possui:
+
+id: Identificador único da tarefa.
+
+title: Título da tarefa.
+
+description: Descrição detalhada.
+
+due_date: Data de entrega.
+
+categoria_id: Referência à categoria à qual a tarefa pertence.
+
+user_id: Referência ao usuário (pai) responsável por visualizar essa tarefa.
+
+A modelagem foi implementada diretamente com SQL. Os Models no backend realizam as operações de criação, leitura, atualização e exclusão (CRUD) com comandos SQL parametrizados.
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+![Arquitetura ](imagens/arquitetura_MVC.png)
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
-  
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+O usuário interage com a View (interface no navegador).
+
+A View envia requisições para os Controllers, que processam essas requisições.
+
+Os Controllers acessam os Models, que realizam as operações no banco de dados.
+
+Os Models se comunicam diretamente com as tabelas no banco.
+
+Após o processamento, os dados fluem de volta do banco → model → controller → view.
 
 ### 3.3. Wireframes 
 
