@@ -58,127 +58,189 @@ T (Testável): Pode ser testada criando e verificando tarefas dentro do sistema.
 
 ## <a name="c3"></a>3. Projeto da Aplicação Web
 
-### 3.1. Modelagem do banco de dados  (Semana 3)
+### 3.1. Modelagem do banco de dados
 
-![Banco de dados ](imagens/modelo-banco.png)
+![Modelo do Banco de Dados](../imagens/modelo-banco-novo.png)
 
-O modelo relacional abaixo representa a estrutura do banco de dados de um sistema de gerenciamento de tarefas. Ele é composto por três entidades principais: users, categories e tasks.
+O modelo relacional representa a estrutura do banco de dados do sistema de gerenciamento de tarefas para estudantes de inglês. Ele é composto por três entidades principais com campos expandidos para melhor funcionalidade:
 
-🔹 Tabela users
-Armazena os dados dos usuários do sistema.
+🔹 **Tabela users**
+Armazena os dados dos usuários do sistema com rastreamento de atividade.
 
-id: Identificador único do usuário (PK).
+- id: Identificador único do usuário (PK)
+- username: Nome de usuário (único e obrigatório)
+- email: Email do usuário (único e obrigatório)
+- password: Senha criptografada (obrigatória)
+- created_at: Data de criação da conta
+- last_login: Último acesso do usuário
 
-username: Nome de usuário (único e obrigatório).
+🔹 **Tabela categories**
+Classifica as tarefas em categorias, com suporte a categorias personalizadas.
 
-email: Email do usuário (único e obrigatório).
+- id: Identificador único da categoria (PK)
+- name: Nome da categoria (obrigatório)
+- description: Descrição da categoria
+- user_id: Referência ao usuário criador (FK, opcional)
+- created_at: Data de criação da categoria
+- updated_at: Data da última atualização
 
-password: Senha criptografada (obrigatória).
+🔹 **Tabela tasks**
+Armazena as tarefas com sistema de priorização e rastreamento temporal.
 
-🔹 Tabela categories
-Classifica as tarefas em categorias.
+- id: Identificador único da tarefa (PK)
+- title: Título da tarefa
+- description: Descrição detalhada
+- due_date: Data de vencimento
+- status: Status da tarefa (pendente, concluída, etc.)
+- priority: Prioridade da tarefa (baixa, média, alta)
+- user_id: Referência ao usuário (FK)
+- category_id: Referência à categoria (FK)
+- created_at: Data de criação da tarefa
+- updated_at: Data da última atualização
 
-id: Identificador único da categoria (PK).
+**Relações Entre Tabelas:**
 
-name: Nome da categoria (obrigatório).
+1. users → tasks: Um usuário pode ter várias tarefas (1:N)
+2. users → categories: Um usuário pode criar várias categorias personalizadas (1:N)
+3. categories → tasks: Uma categoria pode ser atribuída a várias tarefas (1:N)
 
-description: Descrição opcional da categoria.
+**Schema SQL Atualizado:**
 
-🔹 Tabela tasks
-Armazena as tarefas atribuídas aos usuários.
-
-id: Identificador único da tarefa (PK).
-
-title: Título da tarefa.
-
-description: Descrição da tarefa.
-
-due_date: Data de vencimento.
-
-status: Status da tarefa (por padrão, "pendente").
-
-user_id: Chave estrangeira que referencia users.id 
-
-category_id: Chave estrangeira que referencia categories.id 
-
-Relações Entre Tabelas
-
-users → tasks: Um usuário pode ter várias tarefas. 
-
-categories → tasks: Uma categoria pode ser atribuída a várias tarefas. 
-
- ```sql
- -- Tabela de usuários
+```sql
+-- Tabela de usuários
 CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username VARCHAR(100) NOT NULL UNIQUE,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP
 );
 
 -- Tabela de categorias
 CREATE TABLE categories (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name VARCHAR(100) NOT NULL,
-  description TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    user_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Tabela de tarefas
 CREATE TABLE tasks (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title VARCHAR(255),
-  description TEXT,
-  due_date DATE,
-  status VARCHAR(50) DEFAULT 'pendente',
-  user_id INTEGER NOT NULL,
-  category_id INTEGER,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (category_id) REFERENCES categories(id)
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    due_date DATE NOT NULL,
+    status VARCHAR(50) DEFAULT 'pendente',
+    priority VARCHAR(20) DEFAULT 'média',
+    user_id INTEGER NOT NULL,
+    category_id INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
-
 ```
 
+### 3.1.1 Models
 
+O sistema utiliza três modelos principais com funcionalidades avançadas:
 
-### 3.1.1 BD e Models (Semana 5)
-O sistema web utiliza três modelos principais para representar e manipular os dados armazenados no banco de dados relacional:
+1. **UserModel**:
+   - Gerenciamento completo de usuários
+   - Sistema de autenticação com hash de senha
+   - Rastreamento de atividades
+   - Estatísticas de produtividade
+   - Ranking de usuários
+   - Proteção de dados sensíveis
 
-1. User:
-Representa os pais ou responsáveis que acessarão o sistema. Cada usuário possui os seguintes campos:
+Exemplo de funcionalidades:
+```javascript
+// Buscar progresso do usuário
+static async getUserProgress(userId) {
+    // Retorna estatísticas completas do usuário
+    // - Total de tarefas
+    // - Tarefas concluídas
+    // - Taxa de conclusão
+    // - Estatísticas por categoria
+}
 
-id: Identificador único do usuário.
+// Buscar ranking de produtividade
+static async getProductivityRanking(limit = 5) {
+    // Retorna ranking dos usuários mais produtivos
+    // baseado em taxa de conclusão de tarefas
+}
+```
 
-name: Nome do usuário.
+2. **TaskModel**:
+   - CRUD completo de tarefas
+   - Sistema de prioridades
+   - Filtros avançados
+   - Paginação e ordenação
+   - Sugestões de priorização
+   - Resumo diário
+   - Estatísticas temporais
 
-email: Email utilizado para login.
+Exemplo de funcionalidades:
+```javascript
+// Buscar tarefas com filtros avançados
+static async getUserTasks(userId, filters = {}) {
+    // Suporta filtros por:
+    // - Status
+    // - Categoria
+    // - Prioridade
+    // - Data
+    // - Texto
+    // Com ordenação e paginação
+}
 
-password: Senha criptografada para autenticação.
+// Buscar sugestões de priorização
+static async getTaskPrioritySuggestions(userId) {
+    // Retorna sugestões baseadas em:
+    // - Proximidade do prazo
+    // - Prioridade
+    // - Status atual
+}
+```
 
-2. Categoria:
-Utilizada para agrupar tarefas escolares de forma temática ou funcional. Cada categoria contém:
+3. **CategoryModel**:
+   - CRUD completo de categorias
+   - Suporte a categorias globais e personalizadas
+   - Estatísticas detalhadas
+   - Tendências temporais
+   - Sugestões inteligentes
+   - Proteção contra deleção acidental
 
-id: Identificador único da categoria.
+Exemplo de funcionalidades:
+```javascript
+// Buscar tendências de categoria
+static async getCategoryTrends(userId, days = 30) {
+    // Retorna análise temporal de:
+    // - Tarefas criadas
+    // - Tarefas concluídas
+    // - Média diária
+    // - Evolução no período
+}
 
-name: Nome da categoria.
+// Sugerir categorias para tarefa
+static async getCategorySuggestions(taskTitle) {
+    // Sugere categorias baseado em:
+    // - Análise do título
+    // - Padrões de uso
+    // - Histórico do usuário
+}
+```
 
-description: Descrição da categoria.
+Cada modelo implementa:
+- Tratamento robusto de erros
+- Validações de dados
+- Proteção contra SQL injection
+- Logging de operações
+- Métricas de uso
 
-3. Tarefa:
-Representa atividades ou compromissos escolares associados a um aluno. Cada tarefa possui:
-
-id: Identificador único da tarefa.
-
-title: Título da tarefa.
-
-description: Descrição detalhada.
-
-due_date: Data de entrega.
-
-categoria_id: Referência à categoria à qual a tarefa pertence.
-
-user_id: Referência ao usuário (pai) responsável por visualizar essa tarefa.
-
-A modelagem foi implementada diretamente com SQL. Os Models no backend realizam as operações de criação, leitura, atualização e exclusão (CRUD) com comandos SQL parametrizados.
 ### 3.2. Arquitetura (Semana 5)
 
 ![Arquitetura ](imagens/arquitetura_MVC.png)
@@ -210,7 +272,7 @@ Após o processamento, os dados fluem de volta do banco → model → controller
 
 *Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
 
-### 3.7 Interface e Navegação (Semana 07)
+### 3.7 Interface e Navegação
 
 A interface do sistema foi desenvolvida utilizando EJS como template engine, Bootstrap 5 para o framework CSS base e CSS customizado para estilização específica. A navegação é intuitiva e responsiva, adaptando-se a diferentes tamanhos de tela.
 
@@ -270,8 +332,329 @@ A interface do sistema foi desenvolvida utilizando EJS como template engine, Boo
 ![Lista de Tarefas](imagens/interface-lista.png)
 *Tela principal com lista de tarefas*
 
-![Formulário de Tarefa](imagens/interface-form.png)
+![Formulário de Tarefa](imagens/form.png)
 *Formulário de criação/edição de tarefa*
+
+### 3.7.1 Visualização e Criação de Tarefas
+
+A interface de tarefas foi projetada para oferecer uma experiência intuitiva e eficiente aos estudantes de inglês.
+
+#### Visualização de Tarefas
+
+![Lista de Tarefas](imagens/interface-lista.png)
+*Tela principal com lista de tarefas*
+
+A tela de visualização de tarefas inclui:
+
+1. **Filtros Avançados**
+   - Filtro por status (pendente, concluída, atrasada)
+   - Filtro por categoria
+   - Filtro por prioridade
+   - Busca por texto em título/descrição
+   - Ordenação customizável (data, prioridade, status)
+
+2. **Cards de Tarefa**
+   - Título e descrição da tarefa
+   - Badge de categoria com código de cores
+   - Indicador de prioridade (baixa, média, alta)
+   - Status visual (ícone e cor)
+   - Data de vencimento formatada (hoje, amanhã, atrasada)
+   - Botões de ação rápida
+
+3. **Resumo e Estatísticas**
+   - Total de tarefas por status
+   - Progresso geral (barra de progresso)
+   - Tarefas próximas do prazo
+   - Sugestões de priorização
+
+#### Criação/Edição de Tarefas
+
+![Formulário de Tarefa](imagens/form.png)
+*Formulário de criação/edição de tarefa*
+
+O formulário de tarefas oferece:
+
+1. **Campos Principais**
+   - Título da tarefa (obrigatório)
+   - Descrição detalhada (suporte a formatação)
+   - Data de vencimento com calendário
+   - Seleção de categoria (com sugestões inteligentes)
+   - Nível de prioridade
+
+2. **Recursos Avançados**
+   - Sugestão automática de categorias baseada no título
+   - Validação em tempo real dos campos
+   - Preview da formatação da descrição
+   - Atalhos de teclado para salvar/cancelar
+
+3. **Feedback Visual**
+   - Indicadores de campo obrigatório
+   - Mensagens de erro contextuais
+   - Animações de transição
+   - Loading states durante o salvamento
+
+4. **Funcionalidades Extras**
+   - Botão de salvamento rápido
+   - Opção de criar categoria durante o cadastro
+   - Template de tarefas frequentes
+   - Histórico de alterações
+
+### 3.8 Integração Frontend-Backend
+
+A comunicação entre o frontend e backend é realizada através da Fetch API, proporcionando uma experiência fluida e assíncrona.
+
+#### Endpoints e Integrações
+
+1. **Gestão de Tarefas**
+```javascript
+// Buscar todas as tarefas do usuário
+async function fetchTasks() {
+    try {
+        const response = await fetch('/api/tasks', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const tasks = await response.json();
+        updateTaskList(tasks);
+    } catch (error) {
+        showErrorNotification('Erro ao carregar tarefas');
+    }
+}
+
+// Criar nova tarefa
+async function createTask(taskData) {
+    try {
+        const response = await fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(taskData)
+        });
+        const newTask = await response.json();
+        addTaskToList(newTask);
+        showSuccessNotification('Tarefa criada com sucesso');
+    } catch (error) {
+        showErrorNotification('Erro ao criar tarefa');
+    }
+}
+
+// Atualizar status da tarefa
+async function updateTaskStatus(taskId, status) {
+    try {
+        const response = await fetch(`/api/tasks/${taskId}/status`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status })
+        });
+        const updatedTask = await response.json();
+        updateTaskInList(updatedTask);
+    } catch (error) {
+        showErrorNotification('Erro ao atualizar status');
+    }
+}
+```
+
+2. **Gestão de Categorias**
+```javascript
+// Buscar categorias com estatísticas
+async function fetchCategories() {
+    try {
+        const response = await fetch('/api/categories/stats', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const categories = await response.json();
+        updateCategoryFilters(categories);
+        updateCategoryStats(categories);
+    } catch (error) {
+        showErrorNotification('Erro ao carregar categorias');
+    }
+}
+
+// Criar nova categoria
+async function createCategory(categoryData) {
+    try {
+        const response = await fetch('/api/categories', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(categoryData)
+        });
+        const newCategory = await response.json();
+        addCategoryToList(newCategory);
+        showSuccessNotification('Categoria criada com sucesso');
+    } catch (error) {
+        showErrorNotification('Erro ao criar categoria');
+    }
+}
+```
+
+3. **Análise e Estatísticas**
+```javascript
+// Buscar estatísticas do usuário
+async function fetchUserStats() {
+    try {
+        const response = await fetch('/api/users/stats', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const stats = await response.json();
+        updateDashboard(stats);
+    } catch (error) {
+        showErrorNotification('Erro ao carregar estatísticas');
+    }
+}
+
+// Buscar tendências de conclusão
+async function fetchCompletionTrends(period = '30days') {
+    try {
+        const response = await fetch(`/api/tasks/trends?period=${period}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const trends = await response.json();
+        updateTrendsChart(trends);
+    } catch (error) {
+        showErrorNotification('Erro ao carregar tendências');
+    }
+}
+```
+
+#### Tratamento de Erros e Loading States
+
+```javascript
+// Gerenciamento de estados de loading
+function setLoading(elementId, isLoading) {
+    const element = document.getElementById(elementId);
+    if (isLoading) {
+        element.classList.add('loading');
+        element.disabled = true;
+    } else {
+        element.classList.remove('loading');
+        element.disabled = false;
+    }
+}
+
+// Sistema de notificações
+function showNotification(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// Tratamento global de erros
+async function handleApiRequest(request) {
+    try {
+        const response = await request();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('API Error:', error);
+        showNotification(error.message, 'error');
+        throw error;
+    }
+}
+```
+
+#### Exemplos de Uso na Interface
+
+1. **Lista de Tarefas**
+```javascript
+// Carregamento inicial da página
+document.addEventListener('DOMContentLoaded', async () => {
+    setLoading('taskList', true);
+    try {
+        await Promise.all([
+            fetchTasks(),
+            fetchCategories(),
+            fetchUserStats()
+        ]);
+    } catch (error) {
+        console.error('Error loading initial data:', error);
+    } finally {
+        setLoading('taskList', false);
+    }
+});
+
+// Atualização em tempo real
+taskForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setLoading('submitButton', true);
+    
+    const formData = new FormData(taskForm);
+    const taskData = Object.fromEntries(formData.entries());
+    
+    try {
+        await createTask(taskData);
+        taskForm.reset();
+        showNotification('Tarefa criada com sucesso');
+    } catch (error) {
+        showNotification('Erro ao criar tarefa', 'error');
+    } finally {
+        setLoading('submitButton', false);
+    }
+});
+```
+
+2. **Filtros e Busca**
+```javascript
+// Implementação de filtros dinâmicos
+searchInput.addEventListener('input', debounce(async (e) => {
+    const searchTerm = e.target.value;
+    setLoading('taskList', true);
+    
+    try {
+        const response = await fetch(`/api/tasks/search?q=${searchTerm}`);
+        const tasks = await response.json();
+        updateTaskList(tasks);
+    } catch (error) {
+        showNotification('Erro na busca', 'error');
+    } finally {
+        setLoading('taskList', false);
+    }
+}, 300));
+
+// Filtro por categoria
+categorySelect.addEventListener('change', async (e) => {
+    const categoryId = e.target.value;
+    setLoading('taskList', true);
+    
+    try {
+        const response = await fetch(`/api/tasks?category=${categoryId}`);
+        const tasks = await response.json();
+        updateTaskList(tasks);
+    } catch (error) {
+        showNotification('Erro ao filtrar por categoria', 'error');
+    } finally {
+        setLoading('taskList', false);
+    }
+});
+```
+
+Esta integração proporciona:
+- Comunicação assíncrona eficiente
+- Tratamento robusto de erros
+- Feedback visual para o usuário
+- Estados de carregamento
+- Atualizações em tempo real
+- Cache de dados quando apropriado
+- Validação de dados no cliente
 
 ---
 
