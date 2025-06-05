@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizador de Estudos de Inglês</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">English Tasks</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tasks">Minhas Tarefas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tasks/new">Nova Tarefa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/categories">Categorias</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Minhas Tarefas</h1>
+            </div>
+            <div class="col text-end">
+                <a href="/tasks/new" class="btn btn-primary">Nova Tarefa</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <% tasks.forEach(function(task) { %>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= task.title %></h5>
+                            <p class="card-text"><%= task.description %></p>
+                            <div class="mb-2">
+                                <span class="badge bg-<%= task.category_id === 1 ? 'primary' : task.category_id === 2 ? 'success' : 'warning' %>">
+                                    <%= task.category_name %>
+                                </span>
+                            </div>
+                            <p class="card-text">
+                                <small class="text-muted">Prazo: <%= new Date(task.due_date).toLocaleDateString('pt-BR') %></small>
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-success btn-sm complete-task" data-task-id="<%= task.id %>">
+                                    Concluir
+                                </button>
+                                <div>
+                                    <a href="/tasks/<%= task.id %>/edit" class="btn btn-warning btn-sm">Editar</a>
+                                    <button class="btn btn-danger btn-sm delete-task" data-task-id="<%= task.id %>">
+                                        Excluir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Deletar tarefa
+        document.querySelectorAll('.delete-task').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
+                    const taskId = e.target.dataset.taskId;
+                    try {
+                        const response = await fetch(`/api/tasks/${taskId}`, {
+                            method: 'DELETE'
+                        });
+                        if (response.ok) {
+                            window.location.reload();
+                        }
+                    } catch (error) {
+                        console.error('Erro ao excluir tarefa:', error);
+                    }
+                }
+            });
+        });
+
+        // Concluir tarefa
+        document.querySelectorAll('.complete-task').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                const taskId = e.target.dataset.taskId;
+                try {
+                    const response = await fetch(`/api/tasks/${taskId}/complete`, {
+                        method: 'PUT'
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                } catch (error) {
+                    console.error('Erro ao concluir tarefa:', error);
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html> 

@@ -212,7 +212,66 @@ Após o processamento, os dados fluem de volta do banco → model → controller
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+A interface do sistema foi desenvolvida utilizando EJS como template engine, Bootstrap 5 para o framework CSS base e CSS customizado para estilização específica. A navegação é intuitiva e responsiva, adaptando-se a diferentes tamanhos de tela.
+
+#### Principais Componentes da Interface:
+
+1. **Barra de Navegação**
+   - Logo do sistema
+   - Menu de navegação com links para as principais funcionalidades
+   - Design responsivo com menu hamburguer em telas menores
+
+2. **Lista de Tarefas**
+   - Cards para cada tarefa com informações relevantes
+   - Badges coloridos para indicar categorias
+   - Botões de ação (concluir, editar, excluir)
+   - Animações suaves nos cards
+   - Layout em grid responsivo
+
+3. **Formulário de Tarefas**
+   - Campos validados para título, descrição, categoria e data
+   - Seleção de categoria via dropdown
+   - Botões de ação com feedback visual
+   - Layout centralizado e organizado
+
+4. **Página de Erro**
+   - Design amigável para mensagens de erro
+   - Botão de retorno para a página principal
+   - Mensagens claras e objetivas
+
+#### Tecnologias Utilizadas no Frontend:
+
+- **EJS**: Template engine para geração dinâmica de HTML
+- **Bootstrap 5**: Framework CSS para layout responsivo
+- **CSS Customizado**: Estilização específica e animações
+- **Fetch API**: Comunicação assíncrona com o backend
+- **JavaScript**: Interatividade e manipulação do DOM
+
+#### Funcionalidades Implementadas:
+
+1. **Gerenciamento de Tarefas**
+   - Criação de novas tarefas
+   - Edição de tarefas existentes
+   - Exclusão de tarefas
+   - Marcação de tarefas como concluídas
+
+2. **Categorização**
+   - Visualização por categorias
+   - Cores distintas para cada categoria
+   - Filtro de tarefas por categoria
+
+3. **Feedback Visual**
+   - Animações suaves nas interações
+   - Mensagens de sucesso/erro
+   - Loading states durante operações assíncronas
+
+#### Screenshots da Interface:
+
+![Lista de Tarefas](imagens/interface-lista.png)
+*Tela principal com lista de tarefas*
+
+![Formulário de Tarefa](imagens/interface-form.png)
+*Formulário de criação/edição de tarefa*
 
 ---
 

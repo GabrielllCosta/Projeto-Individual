@@ -1,20 +1,94 @@
-Organizador de Tarefas para Estudantes de Inglês
+# English Tasks - Organizador de Tarefas para Estudantes de Inglês
 
-Este projeto é uma aplicação web desenvolvida em Node.js com PostgreSQL, seguindo o padrão arquitetural MVC (Model-View-Controller). Seu foco é auxiliar estudantes de inglês na organização de tarefas e progresso acadêmico.
+Um sistema web para ajudar estudantes de inglês a organizarem suas tarefas e atividades de estudo.
 
- Descrição do Sistema
+## Funcionalidades
 
-A aplicação é um organizador de tarefas voltado para estudantes de inglês. Os usuários podem:
+- Criação e gerenciamento de tarefas de estudo
+- Categorização de tarefas (estudo, lazer, revisão)
+- Sistema de recompensas por conclusão de tarefas
+- Interface responsiva e amigável
+- Feedback visual das ações
 
-Criar tarefas com título, descrição e data de entrega
+## Tecnologias Utilizadas
 
-Categorizar atividades (ex: estudo, lazer, revisão)
+- Node.js
+- Express.js
+- SQLite
+- EJS (Template Engine)
+- Bootstrap 5
+- JavaScript (Fetch API)
+- CSS3 (Animações e customizações)
 
-Acompanhar o status de cada tarefa
+## Pré-requisitos
 
-Visualizar o progresso geral
+- Node.js (versão 14 ou superior)
+- NPM (Node Package Manager)
 
-A interface intuitiva incentiva o aprendizado com recompensas e gamificação.
+## Instalação
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/english-tasks.git
+cd english-tasks
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Configure o banco de dados:
+```bash
+npm run setup-db
+```
+
+4. Inicie o servidor:
+```bash
+npm start
+```
+
+5. Acesse a aplicação:
+Abra seu navegador e acesse `http://localhost:3000`
+
+## Estrutura do Projeto
+
+```
+english-tasks/
+├── app.js              # Arquivo principal da aplicação
+├── server.js           # Servidor HTTP
+├── routes/             # Rotas da aplicação
+├── controllers/        # Controladores
+├── models/            # Modelos de dados
+├── views/             # Templates EJS
+├── public/            # Arquivos estáticos
+│   ├── css/          # Estilos CSS
+│   └── js/           # Scripts JavaScript
+└── database/         # Arquivos do banco de dados
+```
+
+## Scripts Disponíveis
+
+- `npm start`: Inicia o servidor em modo produção
+- `npm run dev`: Inicia o servidor em modo desenvolvimento com hot-reload
+- `npm run setup-db`: Configura o banco de dados inicial
+- `npm test`: Executa os testes
+
+## Contribuição
+
+1. Faça um Fork do projeto
+2. Crie uma Branch para sua Feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a Branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## Autor
+
+Gabriel Leon Lima Costa
 ```
 📁 Estrutura de Pastas e Arquivos
 

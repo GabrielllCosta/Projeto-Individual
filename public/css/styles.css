@@ -1,0 +1,111 @@
+/* Estilos gerais */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar personalizada */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Cards de tarefas */
+.card {
+    transition: transform 0.2s ease-in-out;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.card-text {
+    color: #34495e;
+}
+
+/* Badges de categoria */
+.badge {
+    padding: 0.5em 1em;
+    font-weight: 500;
+}
+
+/* Formulários */
+.form-control:focus, .form-select:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+/* Botões */
+.btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+.btn-primary:hover {
+    background-color: #357abd;
+    border-color: #357abd;
+}
+
+.btn-success {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+.btn-success:hover {
+    background-color: #27ae60;
+    border-color: #27ae60;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.row > div {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+    
+    .d-flex {
+        flex-direction: column;
+    }
+} 
